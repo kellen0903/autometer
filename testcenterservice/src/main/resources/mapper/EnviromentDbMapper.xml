@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoctan.api.mapper.EnviromentDbMapper">
+  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.EnviromentDb">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="port" jdbcType="VARCHAR" property="port" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="dbname" jdbcType="VARCHAR" property="dbname" />
+    <result column="connectstr" jdbcType="VARCHAR" property="connectstr" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="lastmodify_time" jdbcType="TIMESTAMP" property="lastmodifyTime" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="envid" jdbcType="BIGINT" property="envid" />
+  </resultMap>
+</mapper>

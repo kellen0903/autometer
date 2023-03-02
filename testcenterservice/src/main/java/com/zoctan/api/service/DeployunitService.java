@@ -28,6 +28,7 @@ public interface DeployunitService extends Service<Deployunit> {
      */
     List<Deployunit> findDeployWithName(final Map<String, Object> params);
 
+
     /**
      * 更新字典内容
      *
@@ -39,6 +40,10 @@ public interface DeployunitService extends Service<Deployunit> {
     int ifexist(Condition condition);
 
     Integer getdeploynum(long projectid);
+
+    Integer getappnum(long envid);
+
+    Integer getmachinenum(long envid);
 
     List<String> getstaticsdeploynames(long projectid);
 

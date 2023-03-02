@@ -39,6 +39,10 @@ public interface DeployunitMapper extends MyMapper<Deployunit> {
 
     Integer getdeploynum(@Param("projectid")long projectid);
 
+    Integer getappnum(@Param("envid")long envid);
+
+    Integer getmachinenum(@Param("envid")long envid);
+
     List<String> getstaticsdeploynames(@Param("projectid")long projectid);
 
     Deployunit findDeployUnitWithid(@Param("id") Long id);

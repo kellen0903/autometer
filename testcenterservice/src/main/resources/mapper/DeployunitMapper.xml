@@ -16,6 +16,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="lastmodify_time" jdbcType="TIMESTAMP" property="lastmodifyTime" />
     <result column="apicounts" jdbcType="BIGINT" property="apicounts" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="envid" jdbcType="BIGINT" property="envid" />
   </resultMap>
 
   <resultMap id="deployValueWithNameMap" type="com.zoctan.api.entity.Deployunit" extends="BaseResultMap">
@@ -60,5 +62,16 @@
     SELECT a.*
     FROM deployunit a
     where a.id=#{id}
+  </select>
+
+
+  <select id="getappnum" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM deployunit a where a.envid=#{envid}
+  </select>
+
+  <select id="getmachinenum" resultType="java.lang.Integer">
+    SELECT count(DISTINCT(ip))
+    FROM deployunit a where a.envid=#{envid}
   </select>
 </mapper>

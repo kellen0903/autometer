@@ -6,6 +6,7 @@ import com.zoctan.api.core.response.Result;
 import com.zoctan.api.core.response.ResultGenerator;
 import com.zoctan.api.entity.Api;
 import com.zoctan.api.entity.Deployunit;
+import com.zoctan.api.entity.Enviroment;
 import com.zoctan.api.service.ApiService;
 import com.zoctan.api.service.DeployunitService;
 import org.springframework.web.bind.annotation.*;
@@ -142,4 +143,52 @@ public class DeployunitController {
         final PageInfo<Deployunit> pageInfo = new PageInfo<>(list);
         return ResultGenerator.genOkResult(pageInfo);
     }
+
+
+    /**
+     * 添加接口服务
+     */
+
+    @PostMapping("/addservice")
+    public Result addservice(@RequestBody Deployunit deployunit) {
+
+        Condition con=new Condition(Deployunit.class);
+        con.createCriteria().andCondition("envid = "+deployunit.getEnvid())
+                .andCondition("deployunitname = '" + deployunit.getDeployunitname().replace("'","''") + "'");
+        if(deployunitService.ifexist(con)>0)
+        {
+            return ResultGenerator.genFailedResult("此微服务已经存在");
+        }
+        else
+        {
+            deployunitService.save(deployunit);
+            return ResultGenerator.genOkResult();
+        }
+
+    }
+
+    /**
+     * 查询接口服务列表
+     */
+
+    @GetMapping("/getservicelist")
+    public Result getservicelist(@RequestParam long envid) {
+        Condition con = new Condition(Enviroment.class);
+        con.createCriteria().andCondition("envid = " + envid);
+        List<Deployunit> list = deployunitService.listByCondition(con);
+//        List<Enviroment> list = enviromentService.listAll();
+        return ResultGenerator.genOkResult(list);
+    }
+
+    /**
+     * 删除接口服务
+     */
+
+
+    @DeleteMapping("/delservice/{id}")
+    public Result delservice(@PathVariable Long id) {
+        deployunitService.deleteById(id);
+        return ResultGenerator.genOkResult();
+    }
+
 }

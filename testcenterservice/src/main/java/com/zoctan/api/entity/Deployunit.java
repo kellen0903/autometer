@@ -89,6 +89,17 @@ public class Deployunit {
     @Column(name = "lastmodify_time")
     private Date lastmodifyTime;
 
+
+    /**
+     * 访问ip
+     */
+    private String ip;
+
+    /**
+     * 环境id
+     */
+    private long envid;
+
     /**
      * 获取Id
      *
@@ -213,5 +224,33 @@ public class Deployunit {
      */
     public void setLastmodifyTime(Date lastmodifyTime) {
         this.lastmodifyTime = lastmodifyTime;
+    }
+
+
+
+    /**
+     * 获取Ip
+     *
+     * @return ip - ip
+     */
+    public String getIp() {
+        return ip;
+    }
+
+    /**
+     * 设置Ip
+     *
+     * @param ip ip
+     */
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public Long getEnvid() {
+        return envid;
+    }
+
+    public void setEnvid(Long envid) {
+        this.envid = envid;
     }
 }

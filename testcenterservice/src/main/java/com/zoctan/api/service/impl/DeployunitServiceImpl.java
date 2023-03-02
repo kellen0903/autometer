@@ -49,6 +49,16 @@ private DeployunitMapper deployunitMapper;
     }
 
     @Override
+    public Integer getappnum(long envid) {
+        return deployunitMapper.getappnum(envid);
+    }
+
+    @Override
+    public Integer getmachinenum(long envid) {
+        return deployunitMapper.getmachinenum(envid);
+    }
+
+    @Override
     public List<String> getstaticsdeploynames(long projectid) {
         return deployunitMapper.getstaticsdeploynames(projectid);
     }
