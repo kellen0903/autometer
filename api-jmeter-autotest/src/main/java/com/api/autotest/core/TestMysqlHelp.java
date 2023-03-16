@@ -538,8 +538,9 @@ public class TestMysqlHelp {
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateNowStr = sdf.format(d);
-        String sql = "insert apicases_reportstatics (testplanid,deployunitid,batchname,slaverid,totalcases,totalpasscases,totalfailcases,runtime,create_time,lastmodify_time,creator)" +
-                " values(" + apicasesReportstatics.getTestplanid() + "," + apicasesReportstatics.getDeployunitid() + ", '" + apicasesReportstatics.getBatchname().replace("'","''") + "', " + apicasesReportstatics.getSlaverid() + ", " + apicasesReportstatics.getTotalcases() + ", " + apicasesReportstatics.getTotalpasscases() + ", " + apicasesReportstatics.getTotalfailcases() + ", " + apicasesReportstatics.getRuntime() + ", '" + dateNowStr + "', '" + dateNowStr + "','admin')";
+        int batchId = GetBatchIdByName(apicasesReportstatics.getTestplanid(),apicasesReportstatics.getBatchname());
+        String sql = "insert apicases_reportstatics (testplanid,deployunitid,batchname,slaverid,totalcases,totalpasscases,totalfailcases,runtime,create_time,lastmodify_time,creator,batchid)" +
+                " values(" + apicasesReportstatics.getTestplanid() + "," + apicasesReportstatics.getDeployunitid() + ", '" + apicasesReportstatics.getBatchname().replace("'","''") + "', " + apicasesReportstatics.getSlaverid() + ", " + apicasesReportstatics.getTotalcases() + ", " + apicasesReportstatics.getTotalpasscases() + ", " + apicasesReportstatics.getTotalfailcases() + ", " + apicasesReportstatics.getRuntime() + ", '" + dateNowStr + "', '" + dateNowStr + "','admin',"+batchId+")";
         logger.info(logplannameandcasename + "获取数据库 功能测试统计结果 result sql is...........: " + sql);
         try {
             logger.info(logplannameandcasename + "获取数据库 功能测试统计结果 result sql is...........: " + MysqlConnectionUtils.update(sql));
@@ -653,5 +654,20 @@ public class TestMysqlHelp {
                 " values(" + testplanid + "," + batchid + ", '" + batchname.replace("'","''") + "', " + slaverid + ", " + caseid + " , '" + testclass + "' ," + costtime + " , '" + casereportfolder + "', '待解析', '" + dateNowStr + "', '" + dateNowStr +"', '" + Creator  + "' , 0,0,0)";
         logger.info(logplannameandcasename + "获取数据库 保存性能统计结果 sql is...........: " + sql);
         logger.info(logplannameandcasename + "获取数据库 保存性能统计结果 is...........: " + MysqlConnectionUtils.update(sql));
+    }
+
+    public int GetBatchIdByName(String testPlanId, String batchName) {
+        int batchId=0;
+        try {
+            String sql = "select id from executeplanbatch where executeplanid=" + testPlanId + " and batchname='" + batchName + "'";
+            logger.info(logplannameandcasename + "获取数据库 批次ID result sql is...........: " + sql);
+            ArrayList<HashMap<String, String>> result = MysqlConnectionUtils.query(sql);
+            if (result.size() > 0) {
+                batchId = Integer.parseInt(result.get(0).get("id"));
+            }
+        } catch (Exception e) {
+            logger.info(logplannameandcasename + "获取数据库 批次ID异常...........: " + e.getMessage());
+        }
+        return batchId;
     }
 }

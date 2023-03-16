@@ -23,6 +23,13 @@ public class ApicasesReportstatics {
      */
     private String batchname;
 
+    /**
+     * 批次id
+     */
+    private String batchid;
+
+
+
 
     public String getTestplanname() {
         return testplanname;
@@ -253,4 +260,25 @@ public class ApicasesReportstatics {
     public void setCreator(String creator) {
         this.creator = creator;
     }
+
+
+    /**
+     * 获取批次id
+     *
+     * @return batchid - 批次id
+     */
+    public String getBatchId() {
+        return batchid;
+    }
+
+    /**
+     * 设置批次id
+     *
+     * @param batchid 批次id
+     */
+    public void setBatchId(String batchid) {
+        this.batchid = batchid;
+    }
+
+
 }
