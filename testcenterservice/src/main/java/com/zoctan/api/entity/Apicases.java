@@ -172,6 +172,11 @@ public class Apicases {
     private String creator;
 
     /**
+     * 负责人
+     */
+    private String owner;
+
+    /**
      * 获取Id
      *
      * @return id - Id
@@ -367,5 +372,23 @@ public class Apicases {
      */
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    /**
+     * 获取创建者
+     *
+     * @return creator - 创建者
+     */
+    public String getOwner() {
+        return owner;
+    }
+
+    /**
+     * 设置创建者
+     *
+     * @param creator 创建者
+     */
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

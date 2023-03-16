@@ -27,8 +27,9 @@
   </insert>
 
   <select id="getparamvaluebycaseidandtype" resultMap="BaseResultMap">
-    SELECT a.*
-    FROM api_casedata a where a.caseid = #{caseid} and a.propertytype=#{propertytype}
+    SELECT *
+    FROM api_casedata  where caseid = #{caseid}
+    <if test="propertytype != null and propertytype != ''"> and a.propertytype=#{propertytype}</if>
   </select>
 
   <select id="getdataidbyapiidandtypeandapiparam" resultMap="BaseResultMap">

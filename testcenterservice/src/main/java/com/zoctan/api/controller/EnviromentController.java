@@ -35,21 +35,28 @@ public class EnviromentController {
     @PostMapping
     public Result add(@RequestBody final Map<String, Object> param) {
         Integer projectId = Integer.parseInt(param.get("projectid").toString());
-        String strEnvid = param.get("envid").toString();
-        String envName = param.get("envname").toString();
-        String envDesc = param.get("envdesc").toString();
+        String strEnvid = param.get("id").toString();
+        String envName = param.get("enviromentname").toString();
+        String envDesc = param.get("memo").toString();
 
-        Enviroment enviroment = new Enviroment();
-        enviroment.setProjectid(projectId.longValue());
-        enviroment.setEnviromentname(envName);
-        enviroment.setMemo(envDesc);
-
-        if (strEnvid.equals("")) {
-            enviromentService.save(enviroment);
+        Condition con = new Condition(Enviroment.class);
+        con.createCriteria().andCondition("projectid = " + projectId)
+                .andCondition("enviromentname = '" + envName.replace("'", "''") + "'");
+        if (enviromentService.ifexist(con) > 0) {
+            return ResultGenerator.genFailedResult("环境名称已存在");
         } else {
-            Integer intEnvId = Integer.parseInt(strEnvid);
-            enviroment.setId(intEnvId.longValue());
-            enviromentService.update(enviroment);
+            Enviroment enviroment = new Enviroment();
+            enviroment.setProjectid(projectId.longValue());
+            enviroment.setEnviromentname(envName);
+            enviroment.setMemo(envDesc);
+
+            if (strEnvid.equals("")) {
+                enviromentService.save(enviroment);
+            } else {
+                Integer intEnvId = Integer.parseInt(strEnvid);
+                enviroment.setId(intEnvId.longValue());
+                enviromentService.update(enviroment);
+            }
         }
         return ResultGenerator.genOkResult();
     }
@@ -154,6 +161,7 @@ public class EnviromentController {
     public Result copy(@RequestParam long id) {
         Enviroment enviroment = enviromentService.getById(id);
         enviroment.setId(null);
+        enviroment.setEnviromentname(enviroment.getEnviromentname()+" 复制 " + enviromentService.listAll().size());
         enviromentService.save(enviroment);
 
 

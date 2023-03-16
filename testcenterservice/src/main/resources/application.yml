@@ -21,9 +21,9 @@ spring:
     # 连接，注意各个配置，尤其是要一次性执行多条 SQL 时，要 allowMultiQueries=true
     url: jdbc:mysql://127.0.0.1:3306/testcenter?useUnicode=true&useSSL=false&allowMultiQueries=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8
     # 用户名 root
-    username: MyEnc({2oq5sk2pnQEe463zkOQ29Q==})
+    username: MyEnc({itjsRJfLBMhOiNW9CdcQ0g==})
     # 密码 123456
-    password: MyEnc({zn4HSOc+m0ZLHUygmePkcg==})
+    password: MyEnc({8Gza6/55wqsSqN3btwL6gA==})
     # 驱动类
     driver-class-name: com.mysql.jdbc.Driver
   cache:

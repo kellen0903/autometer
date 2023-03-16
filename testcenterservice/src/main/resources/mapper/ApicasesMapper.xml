@@ -26,6 +26,7 @@
     <result column="creator" jdbcType="VARCHAR" property="creator" />
     <result column="modelid" jdbcType="BIGINT" property="modelid" />
     <result column="modelname" jdbcType="VARCHAR" property="modelname" />
+    <result column="owner" jdbcType="VARCHAR" property="owner" />
   </resultMap>
 
   <select id="findApiCaseWithName" resultMap="BaseResultMap">

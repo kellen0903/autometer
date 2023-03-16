@@ -77,8 +77,15 @@
     FROM api where projectid=#{projectid} group by deployunitname
   </select>
 
-  <select id="getapibydeployunitid" resultMap="BaseResultMap">
+
+  <select id="getapibyunitname" resultMap="BaseResultMap">
     SELECT *
-    FROM api WHERE deployunitid = #{deployunitid}
+    FROM api where deployunitname=#{deployunitname}
+  </select>
+
+
+  <select id="getapibydeployunitname" resultMap="BaseResultMap">
+    SELECT *
+    FROM api WHERE deployunitname=#{deployunitname}
   </select>
 </mapper>

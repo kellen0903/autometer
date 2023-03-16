@@ -209,4 +209,31 @@ public class Executeplanbatch {
     public void setCreator(String creator) {
         this.creator = creator;
     }
+
+
+
+    /**
+     * 测试执行时长
+     */
+    private long duration;
+
+    public long getDuration() {
+        return duration;
+    }
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+
+    /**
+     * 测试执行结果
+     */
+    private String result;
+
+    public String getResult() {
+        return result;
+    }
+    public void setResult(String result) {
+        this.result = result;
+    }
 }

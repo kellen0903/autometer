@@ -1,7 +1,9 @@
 package com.zoctan.api.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.zoctan.api.core.response.Result;
 import com.zoctan.api.core.response.ResultGenerator;
+import com.zoctan.api.entity.Deployunit;
 import com.zoctan.api.entity.Enviroment;
 import com.zoctan.api.entity.EnviromentDb;
 import com.zoctan.api.entity.Machine;
@@ -29,8 +31,18 @@ public class EnviromentDbController {
     private EnviromentDbService enviromentDbService;
 
     @PostMapping
-    public Result add(@RequestBody EnviromentDb enviromentDb) {
-        enviromentDbService.save(enviromentDb);
+    public Result add(@RequestBody List<EnviromentDb> enviromentDbList) {
+        for (EnviromentDb enviromentDb :
+                enviromentDbList) {
+            Condition con = new Condition(Deployunit.class);
+            con.createCriteria().andCondition("envid = " + enviromentDb.getEnvid())
+                    .andCondition("name = '" + enviromentDb.getName().replace("'", "''") + "'");
+            if (enviromentDbService.countByCondition(con) > 0) {
+                return ResultGenerator.genFailedResult("数据库已存在");
+            } else {
+                enviromentDbService.save(enviromentDb);
+            }
+        }
         return ResultGenerator.genOkResult();
     }
 

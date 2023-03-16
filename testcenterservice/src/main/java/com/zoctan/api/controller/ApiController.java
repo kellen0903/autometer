@@ -905,4 +905,20 @@ public class ApiController {
             return ResultGenerator.genOkResult();
         }
     }
+
+    @GetMapping("/getapitree")
+    public Result getapitree(@RequestParam long projectid) {
+
+        List<ServiceApi> apiTree = new ArrayList<>();
+
+        List<String> serviceList = deployunitService.getstaticsdeploynames(projectid);
+        for (String service:serviceList) {
+            ServiceApi serviceApi = new ServiceApi();
+            List<Api> apiList = apiService.getapibydeployunitname(service);
+            serviceApi.setServiceName(service);
+            serviceApi.setApiList(apiList);
+            apiTree.add(serviceApi);
+        }
+        return ResultGenerator.genOkResult(apiTree);
+    }
 }

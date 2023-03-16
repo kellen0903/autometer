@@ -1,5 +1,6 @@
 package com.zoctan.api.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zoctan.api.core.response.Result;
@@ -31,15 +32,12 @@ public class DeployunitController {
 
     @PostMapping
     public Result add(@RequestBody Deployunit deployunit) {
-        Condition con=new Condition(Deployunit.class);
-        con.createCriteria().andCondition("projectid = "+deployunit.getProjectid())
-                .andCondition("deployunitname = '" + deployunit.getDeployunitname().replace("'","''") + "'");
-        if(deployunitService.ifexist(con)>0)
-        {
+        Condition con = new Condition(Deployunit.class);
+        con.createCriteria().andCondition("projectid = " + deployunit.getProjectid())
+                .andCondition("deployunitname = '" + deployunit.getDeployunitname().replace("'", "''") + "'");
+        if (deployunitService.ifexist(con) > 0) {
             return ResultGenerator.genFailedResult("此微服务已经存在");
-        }
-        else
-        {
+        } else {
             deployunitService.save(deployunit);
             return ResultGenerator.genOkResult();
         }
@@ -48,13 +46,10 @@ public class DeployunitController {
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long id) {
-        List<Api> apiList= apiService.getapibydeployunitid(id);
-        if(apiList.size()>0)
-        {
+        List<Api> apiList = apiService.getapibydeployunitid(id);
+        if (apiList.size() > 0) {
             return ResultGenerator.genFailedResult("当前微服务还存在API，无法删除！");
-        }
-        else
-        {
+        } else {
             deployunitService.deleteById(id);
             return ResultGenerator.genOkResult();
         }
@@ -89,8 +84,8 @@ public class DeployunitController {
 
     @GetMapping("/getdeplist")
     public Result listall(@RequestParam long projectid) {
-        Condition con=new Condition(Deployunit.class);
-        con.createCriteria().andCondition("projectid = "+projectid);
+        Condition con = new Condition(Deployunit.class);
+        con.createCriteria().andCondition("projectid = " + projectid);
         List<Deployunit> list = deployunitService.listByCondition(con);
         //List<Deployunit> list = deployunitService.listAll();
         return ResultGenerator.genOkResult(list);
@@ -105,7 +100,7 @@ public class DeployunitController {
 
     @GetMapping("/findDeployNameValueWithCode")
     public Result findDeployNameValueWithCode(@RequestParam long deployunitid) {
-        Deployunit dep = deployunitService.getBy("id",deployunitid);
+        Deployunit dep = deployunitService.getBy("id", deployunitid);
 //        Deployunit dep = deployunitService.findDeployNameValueWithCode(deployunitid);
         return ResultGenerator.genOkResult(dep);
     }
@@ -115,16 +110,13 @@ public class DeployunitController {
      */
     @PutMapping("/detail")
     public Result updateDeploy(@RequestBody final Deployunit deployunit) {
-        Condition con=new Condition(Deployunit.class);
-        con.createCriteria().andCondition("projectid = "+deployunit.getProjectid())
-                .andCondition("deployunitname = '" + deployunit.getDeployunitname().replace("'","''") + "'")
+        Condition con = new Condition(Deployunit.class);
+        con.createCriteria().andCondition("projectid = " + deployunit.getProjectid())
+                .andCondition("deployunitname = '" + deployunit.getDeployunitname().replace("'", "''") + "'")
                 .andCondition("id <> " + deployunit.getId());
-        if(deployunitService.ifexist(con)>0)
-        {
+        if (deployunitService.ifexist(con) > 0) {
             return ResultGenerator.genFailedResult("此微服务已经存在");
-        }
-        else
-        {
+        } else {
             this.deployunitService.updateDeploy(deployunit);
             return ResultGenerator.genOkResult();
 
@@ -136,8 +128,8 @@ public class DeployunitController {
      */
     @PostMapping("/search")
     public Result search(@RequestBody final Map<String, Object> param) {
-        Integer page= Integer.parseInt(param.get("page").toString());
-        Integer size= Integer.parseInt(param.get("size").toString());
+        Integer page = Integer.parseInt(param.get("page").toString());
+        Integer size = Integer.parseInt(param.get("size").toString());
         PageHelper.startPage(page, size);
         final List<Deployunit> list = this.deployunitService.findDeployWithName(param);
         final PageInfo<Deployunit> pageInfo = new PageInfo<>(list);
@@ -150,21 +142,25 @@ public class DeployunitController {
      */
 
     @PostMapping("/addservice")
-    public Result addservice(@RequestBody Deployunit deployunit) {
+    public Result addservice(@RequestBody List<Deployunit> deployUnitList) {
+        for (Deployunit deployunit :
+                deployUnitList) {
+            Condition con = new Condition(Deployunit.class);
+            con.createCriteria().andCondition("envid = " + deployunit.getEnvid())
+                    .andCondition("deployunitname = '" + deployunit.getDeployunitname().replace("'", "''") + "'")
+                    .andCondition("projectid = " + deployunit.getProjectid());
+            if (deployunitService.ifexist(con) > 0) {
+                return ResultGenerator.genFailedResult("此微服务已经存在");
+            } else {
+                deployunitService.save(deployunit);
+            }
 
-        Condition con=new Condition(Deployunit.class);
-        con.createCriteria().andCondition("envid = "+deployunit.getEnvid())
-                .andCondition("deployunitname = '" + deployunit.getDeployunitname().replace("'","''") + "'");
-        if(deployunitService.ifexist(con)>0)
-        {
-            return ResultGenerator.genFailedResult("此微服务已经存在");
-        }
-        else
-        {
-            deployunitService.save(deployunit);
-            return ResultGenerator.genOkResult();
-        }
 
+            //**补充添加machine表的逻辑，删除的时候同理
+
+            //**补充添加macdepunit表的逻辑，删除的时候同理
+        }
+        return ResultGenerator.genOkResult();
     }
 
     /**
@@ -190,5 +186,4 @@ public class DeployunitController {
         deployunitService.deleteById(id);
         return ResultGenerator.genOkResult();
     }
-
 }

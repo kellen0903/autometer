@@ -63,4 +63,26 @@
     FROM executeplanbatch a
     where a.executeplanid=#{executeplanid} order by a.create_time desc limit 2
   </select>
+
+
+  <select id="findexplanbatchbyplanid" resultMap="BaseResultMap">
+    SELECT
+    b.id,
+    t.executeplanname,
+    r.batchname,
+    ( CASE r.`totalfailcases` WHEN 0 THEN '成功' ELSE '失败' END ) AS 'result',
+    ( r.runtime / 1000 ) AS duration,
+    r.creator,
+    r.create_time,
+    r.lastmodify_time AS execdate
+    FROM
+    executeplanbatch b,
+    apicases_reportstatics r,
+    executeplan t
+    WHERE
+    <if test="testplanid != null and testplanid != ''">r.testplanid = #{testplanid} and</if>
+    b.id = r.batchid AND r.testplanid = t.id
+
+    order by r.id desc
+  </select>
 </mapper>

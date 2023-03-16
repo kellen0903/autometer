@@ -37,5 +37,7 @@ public interface ApiMapper extends MyMapper<Api> {
 
     List<Api> getstaticsdeployapi(long projectid);
 
+    List<Api> getapibydeployunitname(String deployunitname);
+
     List<Api> getapibydeployunitid(@Param("deployunitid")Long deployunitid);
 }

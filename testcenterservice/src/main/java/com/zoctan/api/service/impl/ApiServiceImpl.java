@@ -49,6 +49,11 @@ private ApiMapper apiMapper;
     }
 
     @Override
+    public List<Api> getapibydeployunitname(String deployunitname) {
+        return apiMapper.getapibydeployunitname(deployunitname);
+    }
+
+    @Override
     public List<Api> getapibydeployunitid(Long deployunitid) {
         return apiMapper.getapibydeployunitid(deployunitid);
     }

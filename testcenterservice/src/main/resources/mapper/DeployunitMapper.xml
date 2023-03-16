@@ -47,7 +47,7 @@
   </select>
 
   <select id="getstaticsdeploynames" resultType="java.lang.String">
-    SELECT deployunitname
+    SELECT DISTINCT(deployunitname)
     FROM deployunit a where a.projectid=#{projectid}
   </select>
 

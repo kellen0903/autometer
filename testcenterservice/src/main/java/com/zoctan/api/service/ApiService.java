@@ -38,6 +38,8 @@ public interface ApiService extends Service<Api> {
 
     List<Api> getstaticsdeployapi(long projectid);
 
+    List<Api> getapibydeployunitname(String deployunitname);
+
     List<Api> getapibydeployunitid(Long deployunitid);
 
 }

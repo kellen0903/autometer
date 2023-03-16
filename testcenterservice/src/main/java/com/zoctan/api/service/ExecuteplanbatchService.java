@@ -20,6 +20,8 @@ public interface ExecuteplanbatchService extends Service<Executeplanbatch> {
 
     List<Executeplanbatch> findexplanbatchWithName(final Map<String, Object> params);
 
+    List<Executeplanbatch> findexplanbatchbyplanid(final Map<String, Object> params);
+
     List<Executeplanbatch> getrecentbatchbyid(Long executeplanid);
 
 

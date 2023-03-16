@@ -43,6 +43,11 @@ private ExecuteplanbatchMapper executeplanbatchMapper;
     }
 
     @Override
+    public List<Executeplanbatch> findexplanbatchbyplanid(Map<String, Object> params) {
+        return executeplanbatchMapper.findexplanbatchbyplanid(params);
+    }
+
+    @Override
     public List<Executeplanbatch> getrecentbatchbyid(Long executeplanid) {
         return executeplanbatchMapper.getrecentbatchbyid(executeplanid);
     }

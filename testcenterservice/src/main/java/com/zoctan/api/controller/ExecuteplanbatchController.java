@@ -13,6 +13,7 @@ import com.zoctan.api.dto.Testplanandbatch;
 import com.zoctan.api.entity.*;
 import com.zoctan.api.mapper.ExecuteplanMapper;
 import com.zoctan.api.mapper.SlaverMapper;
+import com.zoctan.api.service.ApicasesService;
 import com.zoctan.api.service.ExecuteplanService;
 import com.zoctan.api.service.ExecuteplanbatchService;
 import com.zoctan.api.service.ProjectService;
@@ -43,6 +44,8 @@ public class ExecuteplanbatchController {
     private SlaverMapper slaverMapper;
     @Resource
     private ExecuteplanMapper executeplanMapper;
+    @Resource
+    private ApicasesService apicasesService;
 
     @PostMapping
     public Result add(@RequestBody Executeplanbatch executeplanbatch) {
@@ -199,6 +202,24 @@ public class ExecuteplanbatchController {
         final PageInfo<Executeplanbatch> pageInfo = new PageInfo<>(list);
         return ResultGenerator.genOkResult(pageInfo);
     }
+
+
+    /**
+     * 输入框查询
+     */
+    @PostMapping("/batchreport")
+    public Result batchreport(@RequestBody final Map<String, Object> param) {
+        Integer page= Integer.parseInt(param.get("page").toString());
+        Integer size= Integer.parseInt(param.get("size").toString());
+        PageHelper.startPage(page, size);
+
+
+        final List<Executeplanbatch> list = this.executeplanbatchService.findexplanbatchbyplanid(param);
+        final PageInfo<Executeplanbatch> pageInfo = new PageInfo<>(list);
+        return ResultGenerator.genOkResult(pageInfo);
+    }
+
+
 
 
 }
